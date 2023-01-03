@@ -738,8 +738,8 @@ class ExecutableScanner:
                         self.results[binarypath]["execution"]['erroroutput'].append(result[0])
 
                     # Split standard error output and look for RPATH failed expanding, then add to vulnerabilities dict
-                    for line in result[1].split('\n'):
-                        if 'RPATH failed expanding' in line:
+                    for line in result[1].split(b'\n'):
+                        if b'RPATH failed expanding' in line:
                             # Properly split failed load path and turn into an absolute path for reporting
                             relativepath = line.split('to: ')[-1]
                             hijackpath = os.path.abspath(relativepath)
@@ -1040,11 +1040,11 @@ class Main():
             print('[%s] Created %s.log' % ('*', self.outputstandard))
             
     def banner(self):
-        solid_pixel = unichr(0x2588) * 2
-        light_shade_pixel = unichr(0x2591) * 2
-        med_shade_pixel = unichr(0x2592) * 2
-        dark_shade_pixel = unichr(0x2593) * 2
-        blank_pixel = unichr(0x00A0) * 2
+        solid_pixel = chr(0x2588) * 2
+        light_shade_pixel = chr(0x2591) * 2
+        med_shade_pixel = chr(0x2592) * 2
+        dark_shade_pixel = chr(0x2593) * 2
+        blank_pixel = chr(0x00A0) * 2
 
         sp = solid_pixel
         bp = blank_pixel
@@ -1058,13 +1058,13 @@ class Main():
         canvas = [[bp] * canvas_dimensions[0] for i in range(canvas_dimensions[1])]
 
         fill = [[1, range(4, 14)], 
-                [2, [4] + range(14, 16)],
-                [3, range(5, 8) + [12, 13, 14, 16]],
+                [2, [4] + list(range(14, 16))],
+                [3, list(range(5, 8)) + [12, 13, 14, 16]],
                 [4, [6, 8, 12, 17]],
                 [5, [7, 12, 14, 17]],
                 [6, [2, 7, 17]],
-                [7, [1, 3, 8, 17] + range(12, 16)],
-                [8, [2, 4, 5, 8, 12] + range(15, 17)],
+                [7, [1, 3, 8, 17] + list(range(12, 16))],
+                [8, [2, 4, 5, 8, 12] + list(range(15, 17))],
                 [9, [1, 3, 6, 7, 13]],
                 [10, [2, 14]],
                 [11, [3, 4, 14]],
@@ -1073,7 +1073,7 @@ class Main():
                 [14, [8, 9, 11, 12]],
                 [15, [8, 10, 11]],
                 [16, [7, 12]],
-                [17, range(7, 13)]
+                [17, list(range(7, 13))]
                ]
         dark = [[2, [5, 9, 10, 11]],
                 [6, [14, 15]],
@@ -1130,9 +1130,9 @@ class Main():
         toolname = u"boko.py"
         tooldescription = u"Application Hijack Scanner for macOS"
         signature = u"Jesse Nebling (@bashexplode)"
-        canvas[canvas_dimensions[0] - 1][center] += toolname
-        canvas[canvas_dimensions[0] - 1][center + 1] += tooldescription
-        canvas[canvas_dimensions[0] - 1][center + 3] += signature
+        canvas[canvas_dimensions[0] - 1][int(center)] += toolname
+        canvas[canvas_dimensions[0] - 1][int(center) + 1] += tooldescription
+        canvas[canvas_dimensions[0] - 1][int(center) + 3] += signature
 
         # print canvas
         for y in range(len(canvas)):
